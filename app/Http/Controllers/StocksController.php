@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Prices;
 use App\Models\Stocks; 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class StocksController extends Controller
 {
@@ -32,21 +33,20 @@ class StocksController extends Controller
         return response($data);
     }
 
-    public function price($symbol, $from, $to) { 
-         
-        $data = Prices::where('symbol', $symbol)
-                        ->whereBetween('date', [$from, $to])
+    public function quote(Request $request) {  
+        $symbol = $request->input('symbol');
+        $startDate = $request->input('startDate');
+        $endDate = $request->input('endDate');
+        if ( $symbol && $startDate && $endDate ) {
+            $data = Prices::select(['symbol', 'open', 'close', 'date', 'high', 'low', 'volume'])
+                        ->where('symbol', $symbol)
+                        ->whereBetween('date', [$startDate, $endDate])
                         ->orderBy('id', 'desc')
                         ->groupBy('date')
-                        ->get(); 
-        dd($data);
-        return response($data);
-    }
-
-    public function test() { 
-        $records = Prices::count();
-        $limit = 10000;
-        $pages = $records / $limit; 
-        return response($pages);
+                        ->get();  
+            return response([
+                "data" => $data
+            ]); 
+        } 
     }
 }

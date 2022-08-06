@@ -15,8 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/stocks/{page?}', [StocksController::class, 'stocks']);
+Route::get('/stock/quote', [StocksController::class, 'quote']); 
 Route::get('/stock/{symbol}', [StocksController::class, 'stock']);
-Route::get('/price/{symbol}/{from}/{to}', [StocksController::class, 'price']);
-Route::get('/test', [StocksController::class, 'test']);
-
 
