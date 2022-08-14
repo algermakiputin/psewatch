@@ -49,4 +49,17 @@ class StocksController extends Controller
             ]); 
         } 
     }
+
+    public function update(Request $request) {
+        header('Access-Control-Allow-Origin: *');
+        return Prices::insert($request->all());
+    }
+
+    public function dump(Request $request) {
+        header('Access-Control-Allow-Origin: *');
+        return Stocks::orderBy('id', 'asc')
+                        ->offset($request->input('offset'))
+                        ->limit($request->input('limit'))
+                        ->get();
+    }
 }

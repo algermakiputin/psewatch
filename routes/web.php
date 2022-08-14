@@ -17,4 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/stocks/{page?}', [StocksController::class, 'stocks']);
 Route::get('/stock/quote', [StocksController::class, 'quote']); 
 Route::get('/stock/{symbol}', [StocksController::class, 'stock']);
+Route::post('/prices/update', [StocksController::class, 'update']);
+Route::get('/api/stocks', [StocksController::class, 'dump']);
 
